@@ -5,11 +5,11 @@ const app = express();
 app.use(express.json());
 
 // Chat Gpt Api call
-const createGptApiCall = require("./createTextResponse");
+const createGptApiCall = require("./my_modules/core/createTextResponse");
 const call = createGptApiCall();
 
 // Eleven labs Api call
-const createAudio = require("./createAudioResponse");
+const createAudio = require("./my_modules/core/createAudioResponse");
 
 // Generate text and audio
 app.post("/api/call", async (req, res) => {
