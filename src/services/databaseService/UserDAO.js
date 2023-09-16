@@ -1,13 +1,25 @@
+const jsonFormatter = (result) => {
+  let hobbies = [];
+
+  for (let res of result) {
+    hobbies.push(res.hobbies);
+  }
+
+  result[0].hobbies = hobbies;
+
+  return result[0];
+};
+
 const getPersona = async (personaId = 1) => {
   const databaseConnection = require("../../../config/database/databaseConfig");
 
-  const sqlQuery = `SELECT per.*, hob.name hobbies
-        FROM personas per
+  const sqlQuery = `SELECT p.*, h.name hobbies
+        FROM personas p
         INNER JOIN "personaHobbies" ph
-        ON per.id = ph."personaId"
-        INNER JOIN hobbies hob
-        ON ph."hobbieId" = hob.id
-        Where per.id = :personaId;`;
+        ON p.id = ph."personaId"
+        INNER JOIN hobbies h
+        ON ph."hobbieId" = h.id
+        Where p.id = :personaId;`;
 
   const valuesToReplace = {
     personaId: personaId,
@@ -19,18 +31,12 @@ const getPersona = async (personaId = 1) => {
       type: databaseConnection.Sequelize.QueryTypes.SELECT,
     })
     .catch((error) => {
-      throw new Error(`Query error ${error}`);
+      throw new Error(`Query error: ${error}`);
     });
 
-  let hobbies = [];
+  if (!result[0]) throw new Error(`Query error: persona not found`);
 
-  for (let res of result) {
-    hobbies.push(res.hobbies);
-  }
-
-  result[0].hobbies = hobbies;
-
-  return JSON.stringify((result[0].hobbies = hobbies));
+  return jsonFormatter(result);
 };
 
 module.exports = getPersona;

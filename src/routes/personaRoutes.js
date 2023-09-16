@@ -2,8 +2,10 @@ const personaController = require("../controllers/personaController");
 const express = require("express");
 const router = express.Router();
 
-router.post("/random", personaController.randomResponse);
+router.get("/audio", personaController.getAudio)
 
-router.post("/roleplay", personaController.roleplayResponse);
+router.post("/chat", personaController.chat);
+
+router.post("/persona", personaController.getPersona);
 
 module.exports = router;

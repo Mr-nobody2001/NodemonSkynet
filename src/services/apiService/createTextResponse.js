@@ -5,9 +5,11 @@ const createTextResponder = () => {
 
   const axios = require("axios");
 
-  return async (inputText = "", havePersona = true) => {
+  return async (inputText = "", changePersona = false) => {
     const apiKey = "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";
     const apiUrl = "https://api.openai.com/v1/chat/completions";
+
+    if (changePersona) chatContext.length = 0;
 
     chatContext.push({ role: "user", content: inputText });
 
@@ -21,7 +23,7 @@ const createTextResponder = () => {
           model: "gpt-3.5-turbo-0613",
           messages: chatContext,
           temperature: 0.7,
-          max_tokens: 256,
+          max_tokens: 100,
         },
         {
           headers: {
@@ -34,10 +36,9 @@ const createTextResponder = () => {
       chatContext.push(textResponse.data.choices[0].message);
 
       if (chatContext.length > 10) {
-        if (!havePersona) chatContext.splice(0, 2);
-        else chatContext.splice(2, 2);
+        chatContext.splice(2, 2);
       }
-      
+
     } catch (error) {
       throw new Error(`Error when calling the ChatGPT API: ${error}`);
     }
