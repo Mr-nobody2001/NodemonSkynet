@@ -34,7 +34,11 @@ const getPersona = async (personaId = 1) => {
       throw new Error(`Query error: ${error}`);
     });
 
-  if (!result[0]) throw new Error(`Query error: persona not found`);
+  if (!result[0]){
+    const err = new Error(`Query error: persona not found`);
+    err.status = 400;
+    throw err;
+  }
 
   return jsonFormatter(result);
 };

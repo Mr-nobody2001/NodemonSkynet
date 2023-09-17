@@ -1,4 +1,4 @@
-// Instantieta the Sequelize ORM
+// Instantiate the Sequelize ORM
 const database = "persona_database";
 const username = "postgres";
 const password = "123";

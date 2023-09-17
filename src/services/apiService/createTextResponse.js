@@ -6,7 +6,7 @@ const createTextResponder = () => {
   const axios = require("axios");
 
   return async (inputText = "", changePersona = false) => {
-    const apiKey = "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";
+    const apiKey = require("../../../config/api/apiKeys").chatGptApiKey;
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     if (changePersona) chatContext.length = 0;
@@ -38,12 +38,12 @@ const createTextResponder = () => {
       if (chatContext.length > 10) {
         chatContext.splice(2, 2);
       }
-
+      return chatContext[chatContext.length - 1].content;
     } catch (error) {
-      throw new Error(`Error when calling the ChatGPT API: ${error}`);
+      const err = new Error(`Error when calling the ChatGPT API: (${error})`);
+      err.status = 500;
+      throw err;
     }
-
-    return chatContext[chatContext.length - 1].content;
   };
 };
 

@@ -9,15 +9,20 @@ let audioResponder;
 // Database
 const getPersona = require("../services/databaseService/UserDAO");
 
-exports.getAudio = (req, res) => {
-  const audioFilePath =
-    "/home/gabriel/Documentos/neo-skynet/public/audio/audioResponse.mp3";
+exports.getAudio = (req, res, next) => {
+  try {
+    const audioFilePath =
+      "/home/gabriel/Documentos/neo-skynet/public/audio/audioResponse.mp3";
 
-  res.sendFile(audioFilePath);
+    res.sendFile(audioFilePath);
+  } catch (error) {
+    next(error)
+    res.status(404).send("Audio not found")
+  }
 };
 
 // Generate text and audio
-exports.chat = async (req, res) => {
+exports.chat = async (req, res, next) => {
   let { inputText } = req.body;
   const command = "(invent a response.)";
 
@@ -25,12 +30,14 @@ exports.chat = async (req, res) => {
     inputText += command;
     const textResponse = await textResponder(inputText);
     //audioResponder(textResponse);
+    res.status(201).send("Audio created successfully");
   } catch (error) {
-    console.error(error);
+    next(error);
+    res.status(error.status).send(error.message);
   }
 };
 
-exports.getPersona = async (req, res) => {
+exports.getPersona = async (req, res, next) => {
   const { personaId } = req.body;
   let command;
   let inputText;
@@ -48,10 +55,14 @@ exports.getPersona = async (req, res) => {
     inputText = command + JSON.stringify(persona);
     const textResponse = await textResponder(inputText, true);
     audioResponder(textResponse);
-    res.send("The persona has been successfully chosen!!!");
+    res.status(200).send("The persona has been successfully chosen");
   } catch (error) {
-    console.error(error);
+    next(error);
+    console.log(error.status);
+    res.status(error.status).send(error.message);
   }
 };
+
+exports.pageNotFound = (req, res) => res.status(404);
 
 module.exports = exports;

@@ -3,8 +3,7 @@ const createAudio = (voiceID) => {
   return (responseText) => {
     try {
       const elevenlabsLibrary = require("elevenlabs-node");
-
-      const apiKey = "0853230ce17b946cf302fe227f069fa5";
+      const apiKey = require("../../../config/api/apiKeys").elevenlabsApiKey;
       const fileName = "./public/audio/audioResponse.mp3";
       const stability = undefined;
       const similarityBoost = undefined;
@@ -20,7 +19,9 @@ const createAudio = (voiceID) => {
         modelID
       );
     } catch (error) {
-      throw new Error(`Error when calling the ElevenLabs API: ${error}`);
+      const err = new Error(`Error when calling the ElevenLabs API: (${error})`);
+      err.status = 500;
+      throw err;
     }
   };
 };
