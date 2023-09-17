@@ -1,26 +1,34 @@
-const createAudio = (voiceID) => {
-  const voice = voiceID;
-  return (responseText) => {
+const createAudio = (persona) => {
+  const personaClosure = persona;
+  return async (responseText = "a") => {
     try {
-      const elevenlabsLibrary = require("elevenlabs-node");
-      const apiKey = require("../../../config/api/apiKeys").elevenlabsApiKey;
-      const fileName = "./public/audio/audioResponse.mp3";
-      const stability = undefined;
-      const similarityBoost = undefined;
-      const modelID = "eleven_multilingual_v1";
+      const axios = require("axios").default;
+      const apiKey = require("../../../config/api/apiKeys").edenAiApiKey;
 
-      elevenlabsLibrary.textToSpeech(
-        apiKey,
-        voice,
-        fileName,
-        responseText,
-        stability,
-        similarityBoost,
-        modelID
-      );
+      const options = {
+        method: "POST",
+        url: "https://api.edenai.run/v2/audio/text_to_speech",
+        headers: {
+          authorization: `Bearer ${apiKey}`,
+        },
+        data: {
+          show_original_response: false,
+          fallback_providers: "",
+          providers: "microsoft",
+          language: "pt-BR",
+          text: responseText,
+          option: "FEMALE",
+          audio_format: "mp3",
+        },
+      };
+
+      const provider = options.data.providers;
+
+      const audioResponse = await axios.request(options);
+
+      return audioResponse.data[provider].audio_resource_url;
     } catch (error) {
-      const err = new Error(`Error when calling the ElevenLabs API: (${error})`);
-      err.status = 500;
+      const err = new Error(`Error when calling the Eden API: (${error})`);
       throw err;
     }
   };

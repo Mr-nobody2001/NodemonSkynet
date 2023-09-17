@@ -1,16 +1,18 @@
 const createTextResponder = () => {
-  // Save the past questions and answers to keep context
+  // Save the past questions and answers to keep context (context keeper)
   // Closure like
   const chatContext = [];
 
   const axios = require("axios");
 
-  return async (inputText = "", changePersona = false) => {
+  return async (changePersona = false, inputText = "", max_tokens = 128, temperature = 0.7) => {
     const apiKey = require("../../../config/api/apiKeys").chatGptApiKey;
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
+    // Clears the array when a new persona is choosen
     if (changePersona) chatContext.length = 0;
 
+    // Insert inputText in chatContext
     chatContext.push({ role: "user", content: inputText });
 
     let textResponse;
@@ -22,8 +24,8 @@ const createTextResponder = () => {
         {
           model: "gpt-3.5-turbo-0613",
           messages: chatContext,
-          temperature: 0.7,
-          max_tokens: 100,
+          temperature: temperature,
+          max_tokens: max_tokens,
         },
         {
           headers: {
@@ -33,6 +35,7 @@ const createTextResponder = () => {
         }
       );
 
+      // Insert textResponse in chatContext
       chatContext.push(textResponse.data.choices[0].message);
 
       if (chatContext.length > 10) {
@@ -41,7 +44,6 @@ const createTextResponder = () => {
       return chatContext[chatContext.length - 1].content;
     } catch (error) {
       const err = new Error(`Error when calling the ChatGPT API: (${error})`);
-      err.status = 500;
       throw err;
     }
   };
