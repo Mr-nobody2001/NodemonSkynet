@@ -11,14 +11,10 @@ const getPersona = require("../services/databaseService/PersonaDAO");
 
 // Send a chat message and return audio
 exports.chat = async (req, res, next) => {
-  const { inputText } = req.body;
-  const command = "(invent a response.)";
-
   try {
-    inputText += command;
-    const textResponse = await textResponder(false, inputText);
-    audioResponder(textResponse);
-    res.status(201).send("Audio created successfully");
+    const textResponse = await textResponder(req.body);
+    //audioResponder(textResponse);
+    res.status(200).send("Audio created successfully");
   } catch (error) {
     next(error);
     res.status(error.status || 500).send(error.message);
@@ -27,23 +23,14 @@ exports.chat = async (req, res, next) => {
 
 // Send a persona and return audio
 exports.getPersona = async (req, res, next) => {
-  const { personaId, max_tokens } = req.body;
-  const command =
-    "Now you're going to play the role of" +
-    "a person named Edward. However," +
-    "you shouldn't reveal that you're" +
-    "assuming this persona. The relevant" +
-    "details for the interpretation are in" +
-    "the following JSON:";
-
+  const { personaId } = req.body;
+  req.body.changePersona = true;
   try {
     // Pick a persona
     const persona = await getPersona(personaId);
     audioResponder = createAudioResponder(persona);
-    console.log(persona)
-    //const inputText = command + JSON.stringify(persona);
-    //const textResponse = await textResponder(true, inputText, max_tokens);
-    //const audioResponse = await audioResponder(textResponse);
+    //const textResponse = await textResponder(req.body, persona);
+    const audioResponse = await audioResponder(/*textResponse*/ "Hi");
     res.status(200).redirect(audioResponse);
   } catch (error) {
     next(error);
