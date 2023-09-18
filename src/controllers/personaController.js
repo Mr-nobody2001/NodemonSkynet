@@ -40,9 +40,10 @@ exports.getPersona = async (req, res, next) => {
     // Pick a persona
     const persona = await getPersona(personaId);
     audioResponder = createAudioResponder(persona);
-    const inputText = command + JSON.stringify(persona);
-    const textResponse = await textResponder(true, inputText, max_tokens);
-    const audioResponse = await audioResponder(textResponse);
+    console.log(persona)
+    //const inputText = command + JSON.stringify(persona);
+    //const textResponse = await textResponder(true, inputText, max_tokens);
+    //const audioResponse = await audioResponder(textResponse);
     res.status(200).redirect(audioResponse);
   } catch (error) {
     next(error);

@@ -1,72 +1,50 @@
-const PersonaModel = (Sequelize, sequelize) => {
-  const Persona = sequelize.define("persona", {
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 50],
-      },
-    },
-    lastName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 150],
-      },
-    },
-    age: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      validate: {
-        min: 21,
-        max: 100,
-      },
-    },
-    profession: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 150],
-      },
-    },
-    nationality: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 255],
-      },
-    },
-    birthplace: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 255],
-      },
-    },
-    maritalStatus: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 50],
-      },
-    },
-    dateOfBirth: {
-      type: Sequelize.DATEONLY, // Use DATEONLY to store only the date of birth
-      allowNull: false,
-    },
-    lifeSummary: {
-      type: Sequelize.TEXT,
-    },
-    apiIDVoice: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 150],
-      },
-    },
-  });
-
-  return Persona;
+const PersonaModel = (sequelize, Model, DataTypes) => {
+  return class Persona extends Model {
+    static init() {
+      super.init(
+        {
+          name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+              len: [2, 32],
+            },
+          },
+          lastName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+              len: [2, 64],
+            },
+          },
+          age: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+              min: 21,
+              max: 100,
+            },
+          },
+          gender: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+              len: [1, 1],
+            },
+          },
+          dateOfBirth: {
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+          },
+          lifeSummary: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+          },
+        },
+        { sequelize, modelName: "persona", tableName: "persona" }
+      );
+    }
+  };
 };
 
 module.exports = PersonaModel;

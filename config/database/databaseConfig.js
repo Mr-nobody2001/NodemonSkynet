@@ -8,7 +8,7 @@ const databaseInformations = {
   port: 5432,
 };
 
-const Sequelize = require("sequelize");
+const { Sequelize, Model, DataTypes } = require("sequelize");
 const sequelize = new Sequelize(
   database,
   username,
@@ -16,4 +16,4 @@ const sequelize = new Sequelize(
   databaseInformations
 );
 
-module.exports = { Sequelize: Sequelize, sequelize: sequelize };
+module.exports = { Sequelize: sequelize, Model: Model, DataTypes: DataTypes };
