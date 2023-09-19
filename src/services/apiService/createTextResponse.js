@@ -1,6 +1,6 @@
 const {
   textApiDefaultValues,
-} = require("../../../config/general/generalConfig");
+} = require("../../../config/defaultValues/apiDefaultValues");
 
 const callApi = async (
   chatContext,
@@ -9,7 +9,7 @@ const callApi = async (
   max_tokens = textApiDefaultValues.max_tokens_default
 ) => {
   const axios = require("axios");
-  const apiKey = require("../../../config/api/apiKeys").chatGptApiKey;
+  const apiKey = process.env.CHAT_GPT_API_KEY;
   const apiUrl = "https://api.openai.com/v1/chat/completions";
 
   const textResponse = await axios.post(
@@ -51,6 +51,7 @@ const createTextResponder = () => {
         "details for the interpretation are in" +
         "the following JSON:";
 
+      // Delete internal usage data from persona json
       delete persona["voice.name"];
       delete persona["voice.provider"];
       delete persona["language.languageName"];

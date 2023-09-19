@@ -1,8 +1,4 @@
 // Centralize general config
-exports.genaralConfig = {
-    port: 8080,
-}
-
 exports.textApiDefaultValues = {
     modelDefault: "gpt-4",
     temperatureDefault: 0.7,

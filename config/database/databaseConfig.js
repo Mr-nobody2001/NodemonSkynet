@@ -1,19 +1,24 @@
 // Instantiate the Sequelize ORM
-const database = "persona_database";
-const username = "postgres";
-const password = "123";
+const database = process.env.DATABASE;
+const username = process.env.DATABASE_USERNAME;
+const password = process.env.DATABASE_PASSWORD;
 const databaseInformations = {
-  host: "localhost",
-  dialect: "postgres",
-  port: 5432,
+  host: process.env.DATABASE_HOST,
+  dialect: process.env.DATABASE_DIALECT,
+  port: process.env.DATABASE_PORT,
 };
 
-const { Sequelize, Model, DataTypes } = require("sequelize");
-const sequelize = new Sequelize(
-  database,
-  username,
-  password,
-  databaseInformations
-);
+try {
+  const { Sequelize, Model, DataTypes } = require("sequelize");
+  const sequelize = new Sequelize(
+    database,
+    username,
+    password,
+    databaseInformations
+  );
 
-module.exports = { Sequelize: sequelize, Model: Model, DataTypes: DataTypes };
+  module.exports = { Sequelize: sequelize, Model: Model, DataTypes: DataTypes };
+} catch (error) {
+  const err = new Error(`Error database initializing: (${error})`);
+  throw err;
+}

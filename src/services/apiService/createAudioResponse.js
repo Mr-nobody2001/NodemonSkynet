@@ -1,13 +1,16 @@
 const {
   audioApiDefaultValues,
-} = require("../../../config/general/generalConfig");
+} = require("../../../config/defaultValues/apiDefaultValues");
 
 const callApi = async (
   personaClosure,
   responseText = audioApiDefaultValues.textResponseDefault
 ) => {
   const axios = require("axios").default;
-  const apiKey = require("../../../config/api/apiKeys").edenAiApiKey;
+
+  const apiKey = process.env.EDEN_API_KEY;
+
+  console.log(apiKey);
 
   const {
     "voice.provider": provider,

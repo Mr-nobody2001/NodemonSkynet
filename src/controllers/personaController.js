@@ -13,7 +13,7 @@ const getPersona = require("../services/databaseService/PersonaDAO");
 exports.chat = async (req, res, next) => {
   try {
     const textResponse = await textResponder(req.body);
-    audioResponder(textResponse);
+    //audioResponder(textResponse);
     res.status(200).send(/*"Audio created successfully"*/textResponse);
   } catch (error) {
     next(error);
@@ -28,10 +28,10 @@ exports.getPersona = async (req, res, next) => {
   try {
     // Pick a persona
     const persona = await getPersona(personaId);
-    audioResponder = createAudioResponder(persona);
-    const textResponse = await textResponder(req.body, persona);
-    const audioResponse = await audioResponder(textResponse);
-    res.status(200).send(textResponse);
+    //audioResponder = createAudioResponder(persona);
+    //const textResponse = await textResponder(req.body, persona);
+    //const audioResponse = await audioResponder(/*textResponse*/);
+    res.status(200).send(persona);
   } catch (error) {
     next(error);
     res.status(error.status || 500).send(error.message);
