@@ -1,4 +1,13 @@
-const callApi = async (chatContext, temperature = 0.7, max_tokens = 128) => {
+const {
+  textApiDefaultValues,
+} = require("../../../config/general/generalConfig");
+
+const callApi = async (
+  chatContext,
+  model = textApiDefaultValues.modelDefault,
+  temperature = textApiDefaultValues.temperatureDefault,
+  max_tokens = textApiDefaultValues.max_tokens_default
+) => {
   const axios = require("axios");
   const apiKey = require("../../../config/api/apiKeys").chatGptApiKey;
   const apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -6,7 +15,7 @@ const callApi = async (chatContext, temperature = 0.7, max_tokens = 128) => {
   const textResponse = await axios.post(
     apiUrl,
     {
-      model: "gpt-3.5-turbo-0613",
+      model: model,
       messages: chatContext,
       temperature: temperature,
       max_tokens: max_tokens,
@@ -44,11 +53,17 @@ const createTextResponder = () => {
 
       delete persona["voice.name"];
       delete persona["voice.provider"];
+      delete persona["language.languageName"];
+      delete persona["voices.personaVoice.rate"];
+      delete persona["voices.personaVoice.pitch"];
+      delete persona['voices.provider'];
+      delete persona['voices.personaVoice.voiceId'];
+      delete persona['voices.personaVoice.personaId'];
 
       inputText = command + text + JSON.stringify(persona);
     } else {
-      command = "(invent a response.)";
-      inputText = command + text;
+      command = " (If it's not there, create a response.)";
+      inputText = text + command;
     }
 
     // Insert inputText in chatContext

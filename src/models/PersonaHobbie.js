@@ -1,4 +1,4 @@
-const PersonaHObbieModel = (sequelize, Model, DataTypes) => {
+const PersonaHobbieModel = (sequelize, Model, DataTypes) => {
   return class PersonaHobbie extends Model {
     static init() {
       super.init({}, { sequelize, modelName: "personaHobbie", tableName: "personaHobbie" });
@@ -6,4 +6,4 @@ const PersonaHObbieModel = (sequelize, Model, DataTypes) => {
   }
 };
 
-module.exports = PersonaHObbieModel;
+module.exports = PersonaHobbieModel;

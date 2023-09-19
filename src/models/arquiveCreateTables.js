@@ -13,6 +13,7 @@ const ProfessionModel = require("../../src/models/Profession");
 const BirthplaceModel = require("../../src/models/Birthplace");
 const MaritalStatusModel = require("../../src/models/MaritalStatus");
 const VoiceModel = require("../../src/models/Voice");
+const PersonaVoiceModel = require("../../src/models/PersonaVoice");
 
 const Persona = PersonaModel(Sequelize, Model, DataTypes);
 const Hobbie = HobbieModel(Sequelize, Model, DataTypes);
@@ -23,6 +24,7 @@ const Profession = ProfessionModel(Sequelize, Model, DataTypes);
 const Birthplace = BirthplaceModel(Sequelize, Model, DataTypes);
 const MaritalStatus = MaritalStatusModel(Sequelize, Model, DataTypes);
 const Voice = VoiceModel(Sequelize, Model, DataTypes);
+const PersonaVoice = PersonaVoiceModel(Sequelize, Model, DataTypes);
 
 Persona.init();
 Hobbie.init();
@@ -33,6 +35,7 @@ Profession.init();
 Birthplace.init();
 MaritalStatus.init();
 Voice.init();
+PersonaVoice.init();
 
 (async () => {
   Persona.belongsToMany(Hobbie, { through: PersonaHobbie });
@@ -42,9 +45,10 @@ Voice.init();
   Persona.belongsTo(Profession, { foreignKey: "professionId" });
   Persona.belongsTo(Birthplace, { foreignKey: "birthplaceId" });
   Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
-  Persona.belongsTo(Voice, { foreignKey: "voiceId" });
+  Persona.belongsToMany(Voice, { through: PersonaVoice });
+  Voice.belongsToMany(Persona, { through: PersonaVoice });
 
-  /*await Sequelize.sync({ force: true });
+  await Sequelize.sync({ force: true });
 
   const hobbie1 = await Hobbie.create({
     name: "Story telling",
@@ -78,6 +82,11 @@ Voice.init();
     status: "Widower",
   });
 
+  const voice1 = await Voice.create({
+    name: "en-GB_JamesV3Voice",
+    provider: "ibm",
+  });
+
   const persona1 = await Persona.create({
     name: "Edward",
     lastName: "Smith",
@@ -107,27 +116,12 @@ Voice.init();
   const personaHobbie3 = await PersonaHobbie.create({
     personaId: persona1.id,
     hobbieId: hobbie3.id,
-  });*/
-
-  const persona = await Persona.findByPk(1, {
-    include: [
-      { model: Nationality, as: "nat" },
-      { model: Language, as: "lang" },
-      { model: Profession, as: "prof" },
-      { model: Birthplace, as: "bp" },
-      { model: MaritalStatus, as: "ms" },
-      { model: Voice, as: "voic" },
-      {
-        model: Hobbie,
-        through: PersonaHobbie,
-      },
-    ],
   });
 
-  console.log(persona.dataValues);
+  const personaVoice1 = await PersonaVoice.create({
+    personaId: persona1.id,
+    voiceId: voice1.id,
+    rate: -35,
+    pitch: -25,
+  });
 })();
-
-/*const voice = await Voice.create({
-  name: "Edward's Voice",
-  provider: language.id,
-});*/

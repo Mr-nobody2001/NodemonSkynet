@@ -14,6 +14,7 @@ const getPersona = async (personaId = 1) => {
   const BirthplaceModel = require("../../models/Birthplace");
   const MaritalStatusModel = require("../../models/MaritalStatus");
   const VoiceModel = require("../../models/Voice");
+  const PersonaVoiceModel = require("../../models/PersonaVoice");
 
   const Persona = PersonaModel(Sequelize, Model, DataTypes);
   const Hobbie = HobbieModel(Sequelize, Model, DataTypes);
@@ -24,6 +25,7 @@ const getPersona = async (personaId = 1) => {
   const Birthplace = BirthplaceModel(Sequelize, Model, DataTypes);
   const MaritalStatus = MaritalStatusModel(Sequelize, Model, DataTypes);
   const Voice = VoiceModel(Sequelize, Model, DataTypes);
+  const PersonaVoice = PersonaVoiceModel(Sequelize, Model, DataTypes);
 
   Persona.init();
   Hobbie.init();
@@ -34,6 +36,7 @@ const getPersona = async (personaId = 1) => {
   Birthplace.init();
   MaritalStatus.init();
   Voice.init();
+  PersonaVoice.init();
 
   Persona.belongsToMany(Hobbie, { through: PersonaHobbie });
   Hobbie.belongsToMany(Persona, { through: PersonaHobbie });
@@ -42,7 +45,8 @@ const getPersona = async (personaId = 1) => {
   Persona.belongsTo(Profession, { foreignKey: "professionId" });
   Persona.belongsTo(Birthplace, { foreignKey: "birthplaceId" });
   Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
-  Persona.belongsTo(Voice, { foreignKey: "voiceId" });
+  Persona.belongsToMany(Voice, { through: PersonaVoice });
+  Voice.belongsToMany(Persona, { through: PersonaVoice });
 
   try {
     if (personaId <= 0) {
@@ -67,7 +71,14 @@ const getPersona = async (personaId = 1) => {
         { model: Profession, attributes: ["professionName"] },
         { model: Birthplace, attributes: ["cityName"] },
         { model: MaritalStatus, attributes: ["status"] },
-        { model: Voice, attributes: ["name", "provider"] },
+        {
+          model: Voice,
+          through: {
+            PersonaVoice,
+            attributes: ["rate", "pitch"],
+          },
+          attributes: ["name", "provider"],
+        },
       ],
     });
 
@@ -94,7 +105,7 @@ const getPersona = async (personaId = 1) => {
     }
 
     persona.hobbies = hobbies;
-    
+
     if (!persona) {
       const err = new Error(`Query error: persona not found`);
       err.status = 400;

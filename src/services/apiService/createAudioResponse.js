@@ -1,4 +1,11 @@
-const callApi = async (personaClosure, responseText = "") => {
+const {
+  audioApiDefaultValues,
+} = require("../../../config/general/generalConfig");
+
+const callApi = async (
+  personaClosure,
+  responseText = audioApiDefaultValues.textResponseDefault
+) => {
   const axios = require("axios").default;
   const apiKey = require("../../../config/api/apiKeys").edenAiApiKey;
 
@@ -17,18 +24,19 @@ const callApi = async (personaClosure, responseText = "") => {
       authorization: `Bearer ${apiKey}`,
     },
     data: {
-      response_as_dict: true, // Default value
-      attributes_as_list: false, // Default value
-      show_original_response: false, // Default value
+      response_as_dict: audioApiDefaultValues.response_as_dict_default,
+      attributes_as_list: audioApiDefaultValues.attributes_as_list_default,
+      show_original_response:
+        audioApiDefaultValues.show_original_response_default,
       settings: { provider: model },
-      rate: 0, // Default value
-      pitch: 0, // Default value
-      volume: 100,
-      sampling_rate: 0,
-      providers: provider, // Default value
-      fallback_providers: null, // Default value
+      rate: personaClosure["voices.personaVoice.pitch"],
+      pitch: personaClosure["voices.personaVoice.rate"],
+      volume: audioApiDefaultValues.volume_default,
+      sampling_rate: audioApiDefaultValues.rate_default,
+      providers: provider,
+      fallback_providers: audioApiDefaultValues.fallback_providers_default,
       language: language,
-      audio_format: null, // Default value
+      audio_format: audioApiDefaultValues.audio_format_default,
       text: responseText,
       option: gender,
     },
