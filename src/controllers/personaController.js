@@ -12,9 +12,15 @@ const getPersona = require("../services/databaseService/PersonaDAO");
 // Send a chat message and return audio
 exports.chat = async (req, res, next) => {
   try {
-    const textResponse = await textResponder(req.body);
-    //audioResponder(textResponse);
-    res.status(200).send(/*"Audio created successfully"*/textResponse);
+    if (!audioResponder) {
+      const err = new Error(`Error: persona is not defined.`);
+      throw err;
+    }
+
+    //onst textResponse = await textResponder(req.body);
+    const urlAudioResponse = await audioResponder(/*textResponse*/"hi");
+
+    res.status(200).send(urlAudioResponse);
   } catch (error) {
     next(error);
     res.status(error.status || 500).send(error.message);
@@ -28,10 +34,9 @@ exports.getPersona = async (req, res, next) => {
   try {
     // Pick a persona
     const persona = await getPersona(personaId);
-    //audioResponder = createAudioResponder(persona);
-    //const textResponse = await textResponder(req.body, persona);
-    //const audioResponse = await audioResponder(/*textResponse*/);
-    res.status(200).send(persona);
+    audioResponder = createAudioResponder(persona);
+    await textResponder(req.body, persona);
+    res.status(200).send("Successfully chosen persona");
   } catch (error) {
     next(error);
     res.status(error.status || 500).send(error.message);

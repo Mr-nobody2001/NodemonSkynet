@@ -1,3 +1,6 @@
+const dotEnv = require('dotenv');
+dotEnv.config();
+
 const {
   Sequelize,
   Model,
@@ -121,7 +124,7 @@ PersonaVoice.init();
   const personaVoice1 = await PersonaVoice.create({
     personaId: persona1.id,
     voiceId: voice1.id,
-    rate: -35,
+    rate: -25,
     pitch: -25,
   });
 })();

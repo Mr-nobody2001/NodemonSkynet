@@ -1,8 +1,8 @@
 const {
   audioApiDefaultValues,
-} = require("../../../config/defaultValues/apiDefaultValues");
+} = require("../../../../config/defaultValues/defaultValues");
 
-const callApi = async (
+const callAudioApi = async (
   personaClosure,
   responseText = audioApiDefaultValues.textResponseDefault
 ) => {
@@ -10,11 +10,9 @@ const callApi = async (
 
   const apiKey = process.env.EDEN_API_KEY;
 
-  console.log(apiKey);
-
   const {
-    "voice.provider": provider,
-    "voice.name": model,
+    "voices.provider": provider,
+    "voices.name": model,
     "language.languageName": language,
   } = personaClosure;
 
@@ -31,11 +29,11 @@ const callApi = async (
       attributes_as_list: audioApiDefaultValues.attributes_as_list_default,
       show_original_response:
         audioApiDefaultValues.show_original_response_default,
-      settings: { provider: model },
+      settings: { [provider]: model },
       rate: personaClosure["voices.personaVoice.pitch"],
       pitch: personaClosure["voices.personaVoice.rate"],
       volume: audioApiDefaultValues.volume_default,
-      sampling_rate: audioApiDefaultValues.rate_default,
+      sampling_rate: audioApiDefaultValues.sampling_rate_default,
       providers: provider,
       fallback_providers: audioApiDefaultValues.fallback_providers_default,
       language: language,
@@ -45,19 +43,7 @@ const callApi = async (
     },
   };
 
-  return await axios.request(options);
+  return (await axios.request(options)).data[provider].audio_resource_url;
 };
 
-const createAudio = (persona) => {
-  const personaClosure = { ...persona };
-  return async (responseText = "a") => {
-    try {
-      return callApi(personaClosure, responseText);
-    } catch (error) {
-      const err = new Error(`Error when calling the Eden API: (${error})`);
-      throw err;
-    }
-  };
-};
-
-module.exports = createAudio;
+module.exports = callAudioApi;

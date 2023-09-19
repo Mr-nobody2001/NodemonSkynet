@@ -22,3 +22,4 @@ try {
   const err = new Error(`Error database initializing: (${error})`);
   throw err;
 }
+

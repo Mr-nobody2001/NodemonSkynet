@@ -5,14 +5,14 @@ const PersonaVoiceModel = (sequelize, Model, DataTypes) => {
         {
           rate: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             validate: {
               len: [-100, 100],
             },
           },
           pitch: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             validate: {
               len: [-100, 100],
             },
