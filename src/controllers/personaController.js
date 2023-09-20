@@ -1,9 +1,9 @@
 // Chat Gpt Api
-const createTextResponder = require("../services/apiService/createTextResponse");
+const createTextResponder = require("../services/apiService/text/createTextResponse");
 const textResponder = createTextResponder();
 
 // Eden labs Api
-const createAudioResponder = require("../services/apiService/createAudioResponse");
+const createAudioResponder = require("../services/apiService/audio/createAudioResponse");
 let audioResponder;
 
 // Database
