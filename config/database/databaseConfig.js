@@ -19,7 +19,6 @@ try {
 
   module.exports = { Sequelize: sequelize, Model: Model, DataTypes: DataTypes };
 } catch (error) {
-  const err = new Error(`Error database initializing: (${error})`);
-  throw err;
+  throw new Error(`Error database initializing: (${error})`);
 }
 

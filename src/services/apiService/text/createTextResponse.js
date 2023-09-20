@@ -33,7 +33,7 @@ const createTextResponder = () => {
 
       return chatContext[chatContext.length - 1].content.replace(/\n/g, " ");
     } catch (error) {
-      throw error.status && error  || new Error(error);
+      throw error.status && error || new Error(` ${error}`);
     }
   };
 };

@@ -50,8 +50,9 @@ const getPersona = async (personaId = 1) => {
     Voice.belongsToMany(Persona, { through: PersonaVoice });
 
     if (personaId <= 0) {
-      const err = new Error(`Persona not found`);
+      const err = new Error(`Query error: invalid id`);
       err.status = 400;
+      err.message_details = "Null or negative values ​​are not allowed";
       throw err;
     }
 
@@ -82,6 +83,14 @@ const getPersona = async (personaId = 1) => {
       ],
     });
 
+    if (!persona) {
+      const err = new Error(`Query error: Persona not found`);
+      err.status = 400;
+      err.message_details =
+        "The persona you are looking for does not exist in the database";
+      throw err;
+    }
+
     const hobbie = await Persona.findByPk(personaId, {
       attributes: [],
       raw: false,
@@ -106,16 +115,10 @@ const getPersona = async (personaId = 1) => {
 
     persona.hobbies = hobbies;
 
-    if (!persona) {
-      const err = new Error(`Persona not found`);
-      err.status = 400;
-      throw err;
-    }
-
     return persona;
   } catch (error) {
     // If error.status true throw error if not throw a new error
-    throw error.status && error  || new Error(error);
+    throw error.status && error || new Error(` ${error}`);
   }
 };
 
