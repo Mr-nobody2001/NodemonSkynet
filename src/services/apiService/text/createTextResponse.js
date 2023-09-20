@@ -33,8 +33,7 @@ const createTextResponder = () => {
 
       return chatContext[chatContext.length - 1].content.replace(/\n/g, " ");
     } catch (error) {
-      const err = new Error(`Error when calling the ChatGPT API: (${error})`);
-      throw err;
+      throw error.status && error  || new Error(error);
     }
   };
 };
