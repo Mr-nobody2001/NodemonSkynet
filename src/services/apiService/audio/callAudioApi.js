@@ -6,7 +6,7 @@ const callAudioApi = async (
   personaClosure,
   responseText = audioApiDefaultValues.textResponseDefault
 ) => {
-  const axios = require("axios").default;
+  const sdk = require("api")("@eden-ai/v2.0#3qia2ulmrhn2r5");
 
   const apiKey = process.env.EDEN_API_KEY;
 
@@ -18,13 +18,10 @@ const callAudioApi = async (
 
   const gender = personaClosure.gender === "M" ? "MALE" : "FEMALE";
 
-  const options = {
-    method: "POST",
-    url: "https://api.edenai.run/v2/audio/text_to_speech",
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-    },
-    data: {
+  sdk.auth(apiKey);
+  
+  const audioResponse = await sdk
+    .audio_text_to_speech_create({
       response_as_dict: audioApiDefaultValues.response_as_dict_default,
       attributes_as_list: audioApiDefaultValues.attributes_as_list_default,
       show_original_response:
@@ -40,8 +37,7 @@ const callAudioApi = async (
       audio_format: audioApiDefaultValues.audio_format_default,
       text: responseText,
       option: gender,
-    },
-  };
+    })
 
   return (await axios.request(options)).data[provider].audio_resource_url;
 };
