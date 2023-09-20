@@ -21,7 +21,11 @@ const callTextApi = async (
   });
 
   for await (const chunk of completion) {
-    console.log(chunk.choices[0].delta.content);
+  
+    if (chunk.choices[0] !== undefined) {
+      console.log(chunk.choices[0]);
+      console.log(chunk.choices[0].delta.content);
+    }
   }
 };
 

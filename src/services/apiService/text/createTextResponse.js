@@ -30,8 +30,6 @@ const createTextResponder = () => {
       chatContext.push(textResponse.data.choices[0].message);
 
       if (chatContext.length > 15) chatContext.splice(1, 2);
-
-      return chatContext[chatContext.length - 1].content.replace(/\n/g, " ");
     } catch (error) {
       throw error.status && error || new Error(` ${error}`);
     }

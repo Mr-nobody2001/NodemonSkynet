@@ -21,10 +21,9 @@ exports.chat = async (req, res, next) => {
       throw err;
     }
 
-    const textResponse = await textResponder(req.body);
-    //const urlAudioResponse = await audioResponder(textResponse);
+    await textResponder(req.body);
 
-    res.status(200).send(urlAudioResponse);
+    res.status(200).send("ok");
   } catch (error) {
     const errorMessage = new ErrorMessage(error)
 
