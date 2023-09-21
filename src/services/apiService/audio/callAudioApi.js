@@ -1,4 +1,7 @@
 import { audioApiDefaultValues } from "../../../../config/defaultValues/defaultValues.js";
+import { config } from "dotenv";
+
+config();
 
 const callAudioApi = async (
   personaClosure,

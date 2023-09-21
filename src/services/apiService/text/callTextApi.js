@@ -1,4 +1,8 @@
 import { textApiDefaultValues } from "../../../../config/defaultValues/defaultValues.js";
+import { config } from "dotenv";
+import OpenAI from "openai";
+
+config();
 
 const callTextApi = async (
   chatContext,
@@ -6,8 +10,6 @@ const callTextApi = async (
   temperature = textApiDefaultValues.temperatureDefault,
   max_tokens = textApiDefaultValues.max_tokens_default
 ) => {
-  const OpenAI = require("openai");
-
   const openai = new OpenAI({ apiKey: process.env.CHAT_GPT_API_KEY });
 
   const completion = await openai.chat.completions.create({
@@ -19,7 +21,6 @@ const callTextApi = async (
   });
 
   for await (const chunk of completion) {
-  
     if (chunk.choices[0] !== undefined) {
       console.log(chunk.choices[0]);
       console.log(chunk.choices[0].delta.content);

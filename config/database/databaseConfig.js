@@ -1,4 +1,7 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
+import { config } from "dotenv";
+
+config();
 
 // Carrega as variáveis de ambiente
 const database = process.env.DATABASE;

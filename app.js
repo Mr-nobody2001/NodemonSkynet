@@ -1,13 +1,10 @@
 // Application entry point
 import { serverHttp } from "./config/server/serverConfig.js";
-import { config } from "dotenv";
+import { config as dotenv } from "dotenv";
+import "./src/websocket/websocket.js"
 
-config();
+dotenv();
 
 const port = process.env.PORT;
-
-// Routes
-//const personaRoutes = require("./src/routes/personaRoutes");
-//app.use("/persona", personaRoutes);
 
 serverHttp.listen(port, () => console.log(`Server running on port: ${port}`));
