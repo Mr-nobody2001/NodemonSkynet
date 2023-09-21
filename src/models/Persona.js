@@ -47,4 +47,4 @@ const PersonaModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = PersonaModel;
+export default PersonaModel;

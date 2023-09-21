@@ -27,4 +27,4 @@ const pickPersona = (chatContext, persona) => {
   chatContext.push({ role: "system", content: inputText });
 };
 
-module.exports = pickPersona;
+export default pickPersona;

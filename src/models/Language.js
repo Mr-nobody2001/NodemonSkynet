@@ -17,4 +17,4 @@ const LanguageModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = LanguageModel;
+export default LanguageModel;

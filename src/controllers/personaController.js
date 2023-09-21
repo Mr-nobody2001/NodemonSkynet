@@ -1,22 +1,19 @@
-// Chat Gpt Api
-const createTextResponder = require("../services/apiService/text/createTextResponse");
+import createTextResponder from "../services/apiService/text/createTextResponse.js";
 const textResponder = createTextResponder();
 
-// Eden labs Api
-const createAudioResponder = require("../services/apiService/audio/createAudioResponse");
+import createAudioResponder from "../services/apiService/audio/createAudioResponse.js";
 let audioResponder;
 
-// Database
-const getPersona = require("../services/databaseService/PersonaDAO");
-
-const ErrorMessage = require("../models/error/ErrorMessage");
+import getPersona from "../services/databaseService/PersonaDAO.js";
+import ErrorMessage from "../models/error/ErrorMessage.js";
 
 // Send a chat message and return audio
-exports.chat = async (req, res, next) => {
+export const chat = async (req, res, next) => {
   try {
     if (!audioResponder) {
       const err = new Error(`Persona is not defined.`);
-      err.message_details = "A conversation cannot be started without defining a persona"
+      err.message_details =
+        "A conversation cannot be started without defining a persona";
       err.status = 500;
       throw err;
     }
@@ -25,7 +22,7 @@ exports.chat = async (req, res, next) => {
 
     res.status(200).send("ok");
   } catch (error) {
-    const errorMessage = new ErrorMessage(error)
+    const errorMessage = new ErrorMessage(error);
 
     next(error);
 
@@ -34,7 +31,7 @@ exports.chat = async (req, res, next) => {
 };
 
 // Send a persona and return audio
-exports.getPersona = async (req, res, next) => {
+export const getPersonaHandler = async (req, res, next) => {
   const { personaId } = req.body;
   req.body.changePersona = true;
   try {
@@ -44,7 +41,7 @@ exports.getPersona = async (req, res, next) => {
     await textResponder(req.body, persona);
 
     if (!persona || !audioResponder) {
-      const err = new Error(`Persona can´t not be defined.`);
+      const err = new Error(`Persona cannot be defined.`);
       err.status = 400;
       throw err;
     }
@@ -59,6 +56,4 @@ exports.getPersona = async (req, res, next) => {
   }
 };
 
-exports.pageNotFound = (req, res) => res.status(404).send("Page not found");
-
-module.exports = exports;
+export const pageNotFound = (req, res) => res.status(404).send("Page not found");

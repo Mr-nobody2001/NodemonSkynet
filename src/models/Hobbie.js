@@ -17,4 +17,4 @@ const HobbieModel = (sequelize, Model, DataTypes) => {
   }
 };
 
-module.exports = HobbieModel;
+export default HobbieModel;

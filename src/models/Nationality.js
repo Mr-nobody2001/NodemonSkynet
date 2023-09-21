@@ -17,4 +17,4 @@ const NationalityModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = NationalityModel;
+export default NationalityModel;

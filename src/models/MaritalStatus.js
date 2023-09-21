@@ -17,5 +17,5 @@ const MaritalStatusModel = (sequelize, Model, DataTypes) => {
     }
   };
 
-  module.exports = MaritalStatusModel;
+  export default MaritalStatusModel;
   

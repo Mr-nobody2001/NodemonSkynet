@@ -1,58 +1,57 @@
+import {
+  sequelize,
+  Model,
+  DataTypes,
+} from "../../../config/database/databaseConfig.js";
+import PersonaModel from "../../models/Persona.js";
+import HobbieModel from "../../models/Hobbie.js";
+import PersonaHobbieModel from "../../models/PersonaHobbie.js";
+import NationalityModel from "../../models/Nationality.js";
+import LanguageModel from "../../models/Language.js";
+import ProfessionModel from "../../models/Profession.js";
+import BirthplaceModel from "../../models/Birthplace.js";
+import MaritalStatusModel from "../../models/MaritalStatus.js";
+import VoiceModel from "../../models/Voice.js";
+import PersonaVoiceModel from "../../models/PersonaVoice.js";
+
+const Persona = PersonaModel(sequelize, Model, DataTypes);
+const Hobbie = HobbieModel(sequelize, Model, DataTypes);
+const PersonaHobbie = PersonaHobbieModel(sequelize, Model, DataTypes);
+const Nationality = NationalityModel(sequelize, Model, DataTypes);
+const Language = LanguageModel(sequelize, Model, DataTypes);
+const Profession = ProfessionModel(sequelize, Model, DataTypes);
+const Birthplace = BirthplaceModel(sequelize, Model, DataTypes);
+const MaritalStatus = MaritalStatusModel(sequelize, Model, DataTypes);
+const Voice = VoiceModel(sequelize, Model, DataTypes);
+const PersonaVoice = PersonaVoiceModel(sequelize, Model, DataTypes);
+
+Persona.init();
+Hobbie.init();
+PersonaHobbie.init();
+Nationality.init();
+Language.init();
+Profession.init();
+Birthplace.init();
+MaritalStatus.init();
+Voice.init();
+PersonaVoice.init();
+
+Persona.belongsToMany(Hobbie, { through: PersonaHobbie });
+Hobbie.belongsToMany(Persona, { through: PersonaHobbie });
+Persona.belongsTo(Nationality, { foreignKey: "nationalityId" });
+Persona.belongsTo(Language, { foreignKey: "languageId" });
+Persona.belongsTo(Profession, { foreignKey: "professionId" });
+Persona.belongsTo(Birthplace, { foreignKey: "birthplaceId" });
+Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
+Persona.belongsToMany(Voice, { through: PersonaVoice });
+Voice.belongsToMany(Persona, { through: PersonaVoice });
+
 const getPersona = async (personaId = 1) => {
   try {
-    const {
-      Sequelize,
-      Model,
-      DataTypes,
-    } = require("../../../config/database/databaseConfig");
-
-    const PersonaModel = require("../../models/Persona");
-    const HobbieModel = require("../../models/Hobbie");
-    const PersonaHobbieModel = require("../../models/PersonaHobbie");
-    const NationalityModel = require("../../models/Nationality");
-    const LanguageModel = require("../../models/Language");
-    const ProfessionModel = require("../../models/Profession");
-    const BirthplaceModel = require("../../models/Birthplace");
-    const MaritalStatusModel = require("../../models/MaritalStatus");
-    const VoiceModel = require("../../models/Voice");
-    const PersonaVoiceModel = require("../../models/PersonaVoice");
-
-    const Persona = PersonaModel(Sequelize, Model, DataTypes);
-    const Hobbie = HobbieModel(Sequelize, Model, DataTypes);
-    const PersonaHobbie = PersonaHobbieModel(Sequelize, Model, DataTypes);
-    const Nationality = NationalityModel(Sequelize, Model, DataTypes);
-    const Language = LanguageModel(Sequelize, Model, DataTypes);
-    const Profession = ProfessionModel(Sequelize, Model, DataTypes);
-    const Birthplace = BirthplaceModel(Sequelize, Model, DataTypes);
-    const MaritalStatus = MaritalStatusModel(Sequelize, Model, DataTypes);
-    const Voice = VoiceModel(Sequelize, Model, DataTypes);
-    const PersonaVoice = PersonaVoiceModel(Sequelize, Model, DataTypes);
-
-    Persona.init();
-    Hobbie.init();
-    PersonaHobbie.init();
-    Nationality.init();
-    Language.init();
-    Profession.init();
-    Birthplace.init();
-    MaritalStatus.init();
-    Voice.init();
-    PersonaVoice.init();
-
-    Persona.belongsToMany(Hobbie, { through: PersonaHobbie });
-    Hobbie.belongsToMany(Persona, { through: PersonaHobbie });
-    Persona.belongsTo(Nationality, { foreignKey: "nationalityId" });
-    Persona.belongsTo(Language, { foreignKey: "languageId" });
-    Persona.belongsTo(Profession, { foreignKey: "professionId" });
-    Persona.belongsTo(Birthplace, { foreignKey: "birthplaceId" });
-    Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
-    Persona.belongsToMany(Voice, { through: PersonaVoice });
-    Voice.belongsToMany(Persona, { through: PersonaVoice });
-
     if (personaId <= 0) {
-      const err = new Error(`Query error: invalid id`);
+      const err = new Error(`Erro na consulta: id inválido`);
       err.status = 400;
-      err.message_details = "Null or negative values ​​are not allowed";
+      err.message_details = "Valores nulos ou negativos não são permitidos";
       throw err;
     }
 
@@ -84,10 +83,10 @@ const getPersona = async (personaId = 1) => {
     });
 
     if (!persona) {
-      const err = new Error(`Query error: Persona not found`);
+      const err = new Error(`Erro na consulta: Persona não encontrada`);
       err.status = 400;
       err.message_details =
-        "The persona you are looking for does not exist in the database";
+        "A persona que você procura não existe no banco de dados";
       throw err;
     }
 
@@ -117,9 +116,9 @@ const getPersona = async (personaId = 1) => {
 
     return persona;
   } catch (error) {
-    // If error.status true throw error if not throw a new error
-    throw error.status && error || new Error(` ${error}`);
+    // Se error.status for verdadeiro, lançar o erro; caso contrário, lançar um novo erro
+    throw error.status ? error : new Error(` ${error}`);
   }
 };
 
-module.exports = getPersona;
+export default getPersona;

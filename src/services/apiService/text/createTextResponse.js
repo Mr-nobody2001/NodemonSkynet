@@ -1,6 +1,6 @@
-const pickPersona = require("./pickPersona");
+import pickPersona from "./pickPersona.js";
 
-const callTextApi = require("./callTextApi");
+import callTextApi from "./callTextApi.js";
 
 const createTextResponder = () => {
   // Save the past questions and answers to keep context (context keeper)
@@ -36,4 +36,4 @@ const createTextResponder = () => {
   };
 };
 
-module.exports = createTextResponder;
+export default createTextResponder;

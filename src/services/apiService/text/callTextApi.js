@@ -1,6 +1,4 @@
-const {
-  textApiDefaultValues,
-} = require("../../../../config/defaultValues/defaultValues");
+import { textApiDefaultValues } from "../../../../config/defaultValues/defaultValues.js";
 
 const callTextApi = async (
   chatContext,
@@ -29,4 +27,4 @@ const callTextApi = async (
   }
 };
 
-module.exports = callTextApi;
+export default callTextApi;

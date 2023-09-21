@@ -1,6 +1,4 @@
-const {
-  audioApiDefaultValues,
-} = require("../../../../config/defaultValues/defaultValues");
+import { audioApiDefaultValues } from "../../../../config/defaultValues/defaultValues.js";
 
 const callAudioApi = async (
   personaClosure,
@@ -42,4 +40,4 @@ const callAudioApi = async (
   return (await axios.request(options)).data[provider].audio_resource_url;
 };
 
-module.exports = callAudioApi;
+export default callAudioApi;

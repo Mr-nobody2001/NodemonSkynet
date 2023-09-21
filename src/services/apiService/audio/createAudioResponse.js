@@ -1,4 +1,4 @@
-const callAudioApi = require("./callAudioApi");
+import callAudioApi from "./callAudioApi.js";
 
 const createAudio = (persona) => {
   const personaClosure = { ...persona };
@@ -11,4 +11,4 @@ const createAudio = (persona) => {
   };
 };
 
-module.exports = createAudio;
+export default createAudio;

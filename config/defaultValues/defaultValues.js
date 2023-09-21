@@ -1,11 +1,10 @@
-// Centralize general config
-exports.textApiDefaultValues = {
+export const textApiDefaultValues = {
     modelDefault: "gpt-4",
     temperatureDefault: 0.7,
     max_tokens_default: 256,
 }
 
-exports.audioApiDefaultValues = {
+export const audioApiDefaultValues = {
     textResponseDefault: "",
     response_as_dict_default: true, 
     attributes_as_list_default: false, 
@@ -16,4 +15,3 @@ exports.audioApiDefaultValues = {
     audio_format_default: null, 
 }
 
-module.exports = exports;

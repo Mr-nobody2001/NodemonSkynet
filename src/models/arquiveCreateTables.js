@@ -1,33 +1,33 @@
-const dotEnv = require('dotenv');
+import dotEnv from 'dotenv';
 dotEnv.config();
 
-const {
-  Sequelize,
+import {
+  sequelize,
   Model,
   DataTypes,
-} = require("../../config/database/databaseConfig");
+} from "../../config/database/databaseConfig.js";
 
-const PersonaModel = require("../../src/models/Persona");
-const HobbieModel = require("../../src/models/Hobbie");
-const PersonaHobbieModel = require("../../src/models/PersonaHobbie");
-const NationalityModel = require("../../src/models/Nationality");
-const LanguageModel = require("../../src/models/Language");
-const ProfessionModel = require("../../src/models/Profession");
-const BirthplaceModel = require("../../src/models/Birthplace");
-const MaritalStatusModel = require("../../src/models/MaritalStatus");
-const VoiceModel = require("../../src/models/Voice");
-const PersonaVoiceModel = require("../../src/models/PersonaVoice");
+import PersonaModel from "../../src/models/Persona.js";
+import HobbieModel from "../../src/models/Hobbie.js";
+import PersonaHobbieModel from "../../src/models/PersonaHobbie.js";
+import NationalityModel from "../../src/models/Nationality.js";
+import LanguageModel from "../../src/models/Language.js";
+import ProfessionModel from "../../src/models/Profession.js";
+import BirthplaceModel from "../../src/models/Birthplace.js";
+import MaritalStatusModel from "../../src/models/MaritalStatus.js";
+import VoiceModel from "../../src/models/Voice.js";
+import PersonaVoiceModel from "../../src/models/PersonaVoice.js";
 
-const Persona = PersonaModel(Sequelize, Model, DataTypes);
-const Hobbie = HobbieModel(Sequelize, Model, DataTypes);
-const PersonaHobbie = PersonaHobbieModel(Sequelize, Model, DataTypes);
-const Nationality = NationalityModel(Sequelize, Model, DataTypes);
-const Language = LanguageModel(Sequelize, Model, DataTypes);
-const Profession = ProfessionModel(Sequelize, Model, DataTypes);
-const Birthplace = BirthplaceModel(Sequelize, Model, DataTypes);
-const MaritalStatus = MaritalStatusModel(Sequelize, Model, DataTypes);
-const Voice = VoiceModel(Sequelize, Model, DataTypes);
-const PersonaVoice = PersonaVoiceModel(Sequelize, Model, DataTypes);
+const Persona = PersonaModel(sequelize, Model, DataTypes);
+const Hobbie = HobbieModel(sequelize, Model, DataTypes);
+const PersonaHobbie = PersonaHobbieModel(sequelize, Model, DataTypes);
+const Nationality = NationalityModel(sequelize, Model, DataTypes);
+const Language = LanguageModel(sequelize, Model, DataTypes);
+const Profession = ProfessionModel(sequelize, Model, DataTypes);
+const Birthplace = BirthplaceModel(sequelize, Model, DataTypes);
+const MaritalStatus = MaritalStatusModel(sequelize, Model, DataTypes);
+const Voice = VoiceModel(sequelize, Model, DataTypes);
+const PersonaVoice = PersonaVoiceModel(sequelize, Model, DataTypes);
 
 Persona.init();
 Hobbie.init();
@@ -51,7 +51,7 @@ PersonaVoice.init();
   Persona.belongsToMany(Voice, { through: PersonaVoice });
   Voice.belongsToMany(Persona, { through: PersonaVoice });
 
-  await Sequelize.sync({ force: true });
+  await sequelize.sync({ force: true });
 
   const hobbie1 = await Hobbie.create({
     name: "Story telling",

@@ -24,4 +24,4 @@ const PersonaVoiceModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = PersonaVoiceModel;
+export default PersonaVoiceModel;

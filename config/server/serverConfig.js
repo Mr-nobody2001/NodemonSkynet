@@ -1,7 +1,7 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-const errorHandler = require("errorhandler");
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import errorHandler from "errorhandler";
 
 const app = express();
 app.use(express.json());
@@ -13,4 +13,4 @@ const serverHttp = http.createServer(app);
 
 const io = new Server(serverHttp);
 
-module.exports = { serverHttp: serverHttp, io: io };
+export { serverHttp, io };

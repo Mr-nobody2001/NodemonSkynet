@@ -17,4 +17,4 @@ const BirthplaceModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = BirthplaceModel;
+export default BirthplaceModel;

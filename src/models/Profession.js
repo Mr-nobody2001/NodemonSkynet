@@ -17,4 +17,4 @@ const ProfessionModel = (sequelize, Model, DataTypes) => {
   };
 };
 
-module.exports = ProfessionModel;
+export default ProfessionModel;

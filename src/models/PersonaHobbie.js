@@ -6,4 +6,4 @@ const PersonaHobbieModel = (sequelize, Model, DataTypes) => {
   }
 };
 
-module.exports = PersonaHobbieModel;
+export default PersonaHobbieModel;

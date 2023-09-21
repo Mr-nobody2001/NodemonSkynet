@@ -1,14 +1,19 @@
-const personaController = require("../controllers/personaController");
-const express = require("express");
+import {
+  chat,
+  getPersonaHandler,
+  pageNotFound,
+} from "../controllers/personaController.js";
+import express from "express";
+
 const router = express.Router();
 
 // Send a chat message
-router.get("/chat", personaController.chat);
+router.get("/chat", chat);
 
 // Choose a persona
-router.get("/pick", personaController.getPersona);
+router.get("/pick", getPersonaHandler);
 
 // Handles 404 error
-router.get("*", personaController.pageNotFound);
+router.get("*", pageNotFound);
 
-module.exports = router;
+export default router;

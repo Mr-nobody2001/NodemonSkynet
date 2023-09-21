@@ -1,8 +1,8 @@
 // Application entry point
-const { serverHttp } = require("./config/server/serverConfig");
-const dotEnv = require("dotenv");
+import { serverHttp } from "./config/server/serverConfig.js";
+import { config } from "dotenv";
 
-dotEnv.config();
+config();
 
 const port = process.env.PORT;
 
