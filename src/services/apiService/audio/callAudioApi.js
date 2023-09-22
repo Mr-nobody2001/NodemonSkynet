@@ -1,5 +1,6 @@
 import { audioApiDefaultValues } from "../../../../config/defaultValues/defaultValues.js";
 import { config } from "dotenv";
+import createAPI from 'api'; // Substitua 'api' pelo nome real do pacote
 
 config();
 
@@ -7,8 +8,8 @@ const callAudioApi = async (
   personaClosure,
   responseText = audioApiDefaultValues.textResponseDefault
 ) => {
-  const sdk = require("api")("@eden-ai/v2.0#3qia2ulmrhn2r5");
-
+  const sdk = createAPI('@eden-ai/v2.0#3qia2ulmrhn2r5');
+  
   const apiKey = process.env.EDEN_API_KEY;
 
   const {
@@ -40,7 +41,7 @@ const callAudioApi = async (
       option: gender,
     })
 
-  return (await axios.request(options)).data[provider].audio_resource_url;
+  return audioResponse.data[provider].audio_resource_url;
 };
 
 export default callAudioApi;

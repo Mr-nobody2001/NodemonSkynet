@@ -15,7 +15,7 @@
           Helvetica, Arial, sans-serif;
       }
 
-      #form {
+      #container {
         background: rgba(0, 0, 0, 0.15);
         padding: 0.25rem;
         position: fixed;
@@ -37,7 +37,7 @@
       #input:focus {
         outline: none;
       }
-      #form > button {
+      #container > button {
         background: #333;
         border: none;
         padding: 0 1rem;
@@ -61,26 +61,44 @@
     </style>
   </head>
   <body>
+    <audio id="myAudio" src="">
+      Seu navegador não suporta o elemento de áudio.
+    </audio>
+
     <ul id="messages"></ul>
-    <form id="form" action="">
+    <div id="container">
       <input id="input" autocomplete="off" />
-      <button id="pickPersonaButton">Pick persona</button>
-      <button>Chat</button>
-    </form>
+      <button id="playButton">Play</button>
+      <button id="chatButton">Send</button>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      // Websocket connection
       const socket = io();
 
-      const chatButton = document.getElementById("pickPersonaButton");
-      const input = document.getElementById("input");
-      const messages = document.getElementById("messages");
+      const textList = [];
+      const audioList = [];
 
-      chatButton.addEventListener("click", (e) => {
+      const input = document.getElementById("input");
+      const playButton = document.getElementById("playButton");
+
+      // Websocket triggers
+
+      socket.on("on response", (response) => {
+        textList.push(response.responseText);
+        audioList.push(response.responseAudio);
+      });
+
+      // Chat button
+
+      const sendButton = document.getElementById("chatButton");
+
+      sendButton.addEventListener("click", (e) => {
         e.preventDefault();
         if (input.value) {
           const msg = {
-            max_tokens: 10,
+            max_tokens: 256,
             text: input.value,
           };
           socket.emit("send chat", msg);
@@ -88,12 +106,38 @@
         }
       });
 
-      socket.on("chat message", (msg) => {
+      // Audio button
+
+      const audioPlayer = document.getElementById("myAudio");
+
+      playButton.addEventListener("click", function () {
+        if (audioList.length > 0 && textList.length > 0) {
+          console.log(audioList.length);
+          getText(textList);
+          getAudio(audioList);
+        }
+      });
+
+      audioPlayer.addEventListener("ended", function () {
+        if (audioList.length > 0 && textList.length > 0) {
+          getText(textList);
+          getAudio(audioList);
+        }
+      });
+
+      const getText = (textList) => {
+        const messages = document.getElementById("messages");
         const item = document.createElement("li");
-        item.textContent = msg;
+        item.textContent = textList.shift();
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
-      });
+      };
+
+      const getAudio = (audioList) => {
+        const audio = audioList.shift();
+        audioPlayer.src = audio;
+        audioPlayer.play();
+      };
     </script>
   </body>
 </html>

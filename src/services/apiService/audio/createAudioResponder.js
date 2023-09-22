@@ -1,6 +1,6 @@
 import callAudioApi from "./callAudioApi.js";
 
-const createAudio = (persona) => {
+const createAudioResponder = (persona) => {
   const personaClosure = { ...persona };
   return async (responseText = "") => {
     try {
@@ -11,4 +11,4 @@ const createAudio = (persona) => {
   };
 };
 
-export default createAudio;
+export default createAudioResponder;

@@ -19,13 +19,8 @@ const callTextApi = async (
     max_tokens: max_tokens,
     stream: true,
   });
-
-  for await (const chunk of completion) {
-    if (chunk.choices[0] !== undefined) {
-      console.log(chunk.choices[0]);
-      console.log(chunk.choices[0].delta.content);
-    }
-  }
+  
+  return completion;
 };
 
 export default callTextApi;

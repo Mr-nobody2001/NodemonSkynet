@@ -7,7 +7,6 @@ const app = express();
 app.use(express.json());
 
 const serverHttp = http.createServer(app);
-
 const io = new Server(serverHttp);
 
 // Error logging

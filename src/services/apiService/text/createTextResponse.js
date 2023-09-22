@@ -17,26 +17,19 @@ const createTextResponder = () => {
     const model = undefined;
     const temperature = undefined;
 
-    console.log(text, max_tokens);
-
     // Insert inputText in chatContext
     chatContext.push({ role: "user", content: inputText });
 
-    console.log(chatContext)
-
     try {
       //Making HTTP request to Chat Gpt API
-      const textResponse = await callTextApi(
+      const completion = await callTextApi(
         chatContext,
         model,
         temperature,
-        max_tokens,
+        max_tokens
       );
 
-      // Insert textResponse in chatContext
-      chatContext.push(textResponse.data.choices[0].message);
-
-      //if (chatContext.length > 15) chatContext.splice(1, 2);
+      return { completion, chatContext };
     } catch (err) {
       throw (err.status && err) || new Error(` ${err}`);
     }

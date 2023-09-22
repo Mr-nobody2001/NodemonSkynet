@@ -101,8 +101,8 @@ const getDataTextById = async (personaId) => {
   return dataText;
 };
 
-const getDataVoiceById = async (personaId) => {
-  const dataVoice = await Persona.findByPk(personaId, {
+const getDataAudioById = async (personaId) => {
+  const dataAudio = await Persona.findByPk(personaId, {
     attributes: [],
     raw: true,
     include: [
@@ -118,7 +118,7 @@ const getDataVoiceById = async (personaId) => {
     ],
   });
 
-  return dataVoice;
+  return dataAudio;
 };
 
 export const getPersonaById = async (personaId = 1) => {
@@ -131,9 +131,9 @@ export const getPersonaById = async (personaId = 1) => {
     }
 
     const dataText = await getDataTextById(personaId);
-    const dataVoice = await getDataVoiceById(personaId);
+    const dataAudio = await getDataAudioById(personaId);
 
-    return { dataText, dataVoice };
+    return { dataText, dataAudio };
   } catch (err) {
     // If error.status is truthy, throw the error; otherwise, throw a new error
     throw err.code ? err : new Error(` ${err}`);

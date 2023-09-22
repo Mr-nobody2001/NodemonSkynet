@@ -1,12 +1,8 @@
 import { fetchGlobalFile } from "../../services/fileService/fileHandler.js";
-
 import createTextResponder from "../../services/apiService/text/createTextResponse.js";
-const textResponder = createTextResponder();
+import createAudioResponder from "../../services/apiService/audio/createAudioResponder.js";
 
-//import createAudioResponder from "../services/apiService/audio/createAudioResponse.js";
-//let audioResponder;
-
-export const instantiateModules = async () => {
+const instantiateModules = () => {
   const path = "./files/persona.json";
 
   const persona = fetchGlobalFile(path);
@@ -20,16 +16,17 @@ export const instantiateModules = async () => {
       throw err;
     }
 
-    await textResponder(persona.dataText);
+    const textResponder = createTextResponder();
+    textResponder(persona.dataText);
+    const audioResponder = createAudioResponder(persona.dataAudio);
+
+    return {
+      textResponder,
+      audioResponder,
+    };
   } catch (err) {
     throw err;
   }
 };
 
-export const chatPersonaWsHandler = async (msg) => {
-  try {
-    textResponder(undefined, msg);
-  } catch (err) {
-    throw err;
-  }
-};
+export default instantiateModules;
