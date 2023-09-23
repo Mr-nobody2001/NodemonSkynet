@@ -1,4 +1,5 @@
 import {
+  Sequelize,
   sequelize,
   Model,
   DataTypes,
@@ -15,7 +16,7 @@ import MaritalStatusModel from "../models/MaritalStatus.js";
 import VoiceModel from "../models/Voice.js";
 import PersonaVoiceModel from "../models/PersonaVoice.js";
 
-const Persona = PersonaModel(sequelize, Model, DataTypes);
+const Persona = PersonaModel(Sequelize, sequelize, Model, DataTypes);
 const Hobbie = HobbieModel(sequelize, Model, DataTypes);
 const PersonaHobbie = PersonaHobbieModel(sequelize, Model, DataTypes);
 const Nationality = NationalityModel(sequelize, Model, DataTypes);
@@ -46,6 +47,7 @@ Persona.belongsTo(Birthplace, { foreignKey: "birthplaceId" });
 Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
 Persona.belongsToMany(Voice, { through: PersonaVoice });
 Voice.belongsToMany(Persona, { through: PersonaVoice });
+Voice.belongsTo(Language, { foreignKey: "languageId" });
 
 const getDataTextById = async (personaId) => {
   const dataText = await Persona.findByPk(personaId, {
@@ -55,7 +57,9 @@ const getDataTextById = async (personaId) => {
       "age",
       "gender",
       "dateOfBirth",
-      "lifeSummary",
+      "background",
+      "personality",
+      "physicalDescription",
     ],
     raw: true,
     include: [

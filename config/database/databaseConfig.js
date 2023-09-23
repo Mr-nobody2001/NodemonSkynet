@@ -21,4 +21,4 @@ try {
   throw new Error(`Erro ao inicializar o banco de dados: (${error})`);
 }
 
-export { sequelize, Model, DataTypes };
+export { Sequelize, sequelize, Model, DataTypes };

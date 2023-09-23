@@ -9,7 +9,10 @@ export const fetchGlobalFile = (nomeArquivo) => {
     const dados = fs.readFileSync(nomeArquivo, "utf-8");
     return JSON.parse(dados);
   } catch (error) {
-    console.error("Erro ao carregar o arquivo:", error);
-    return null;
+    const err = new Error(`Persona is not defined.`);
+    err.message_details =
+      "A conversation cannot be started without defining a persona";
+    err.code = 500;
+    throw err;
   }
 };

@@ -7,7 +7,7 @@ const LanguageModel = (sequelize, Model, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              len: [1, 8],
+              len: [2, 11],
             },
           },
         },

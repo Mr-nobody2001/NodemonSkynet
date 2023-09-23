@@ -1,8 +1,13 @@
-const PersonaModel = (sequelize, Model, DataTypes) => {
+const PersonaModel = (Sequelize, sequelize, Model, DataTypes) => {
   return class Persona extends Model {
     static init() {
       super.init(
         {
+          id: {
+            type: DataTypes.UUID,
+            defaultValue: Sequelize.UUIDV4,
+            primaryKey: true,
+          },
           name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -36,7 +41,15 @@ const PersonaModel = (sequelize, Model, DataTypes) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
           },
-          lifeSummary: {
+          background: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+          },
+          personality: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+          },
+          physicalDescription: {
             type: DataTypes.TEXT,
             allowNull: false,
           },

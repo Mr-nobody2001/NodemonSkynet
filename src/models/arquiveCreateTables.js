@@ -1,7 +1,8 @@
-import dotEnv from 'dotenv';
+import dotEnv from "dotenv";
 dotEnv.config();
 
 import {
+  Sequelize,
   sequelize,
   Model,
   DataTypes,
@@ -18,7 +19,7 @@ import MaritalStatusModel from "../../src/models/MaritalStatus.js";
 import VoiceModel from "../../src/models/Voice.js";
 import PersonaVoiceModel from "../../src/models/PersonaVoice.js";
 
-const Persona = PersonaModel(sequelize, Model, DataTypes);
+const Persona = PersonaModel(Sequelize, sequelize, Model, DataTypes);
 const Hobbie = HobbieModel(sequelize, Model, DataTypes);
 const PersonaHobbie = PersonaHobbieModel(sequelize, Model, DataTypes);
 const Nationality = NationalityModel(sequelize, Model, DataTypes);
@@ -50,6 +51,7 @@ PersonaVoice.init();
   Persona.belongsTo(MaritalStatus, { foreignKey: "maritalStatusId" });
   Persona.belongsToMany(Voice, { through: PersonaVoice });
   Voice.belongsToMany(Persona, { through: PersonaVoice });
+  Voice.belongsTo(Language, { foreignKey: "languageId" });
 
   await sequelize.sync({ force: true });
 
@@ -70,7 +72,7 @@ PersonaVoice.init();
   });
 
   const language1 = await Language.create({
-    languageName: "en",
+    languageName: "en-gb",
   });
 
   const profession1 = await Profession.create({
@@ -88,6 +90,7 @@ PersonaVoice.init();
   const voice1 = await Voice.create({
     name: "en-GB_JamesV3Voice",
     provider: "ibm",
+    languageId: language1.id
   });
 
   const persona1 = await Persona.create({
@@ -96,7 +99,7 @@ PersonaVoice.init();
     age: 95,
     gender: "M",
     dateOfBirth: "1928-05-10",
-    lifeSummary:
+    background:
       "Edward Smith is a British World War II veteran whose parents lost their lives during a bombing raid during the conflict. Additionally, Edward suffered injuries that resulted in the loss of vision in one of his eyes when he was hit by shrapnel during the war.",
     apiIDVoice: "IKne3meq5aSn9XLyUdCD",
     nationalityId: nationality1.id,
@@ -104,6 +107,10 @@ PersonaVoice.init();
     professionId: profession1.id,
     birthplaceId: birthplace1.id,
     maritalStatusId: maritalStatus1.id,
+    personality:
+      "Edward is a wise and calm man with a positive outlook on life despite the adversities he faced during the war. He is known for his emotional stories about his youth and experiences during World War II. Edward is generous and has a big heart, often sharing his life experiences with others.",
+    physicalDescription:
+      "Edward is an elderly man with white hair and a well-trimmed beard. He has a gentle and serene look in his eyes and usually wears comfortable and casual clothing, such as sweaters and trousers.",
   });
 
   const personaHobbie1 = await PersonaHobbie.create({

@@ -3,18 +3,10 @@ import createTextResponder from "../../services/apiService/text/createTextRespon
 import createAudioResponder from "../../services/apiService/audio/createAudioResponder.js";
 
 const instantiateModules = () => {
-  const path = "./files/persona.json";
-
-  const persona = fetchGlobalFile(path);
-
   try {
-    if (!persona) {
-      const err = new Error(`Persona is not defined.`);
-      err.message_details =
-        "A conversation cannot be started without defining a persona";
-      err.code = 500;
-      throw err;
-    }
+    const path = "./files/persona.json";
+
+    const persona = fetchGlobalFile(path);
 
     const textResponder = createTextResponder();
     textResponder(persona.dataText);
