@@ -7,6 +7,6 @@ export const httpCorsConfiguration = {
 // Websocket CORS configuration
 export const websocketCorsConfiguration = {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5500",
   },
 };

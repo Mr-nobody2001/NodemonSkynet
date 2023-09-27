@@ -1,13 +1,20 @@
-const batchCall = async (
-    socket,
-    audioResponder,
-    responseText,
-    chatContextConcat
-  ) => {
-    chatContextConcat.push(responseText);
-    let responseAudio = await audioResponder(responseText);
-    console.log(responseAudio);
-    socket.emit("on response", { responseText, responseAudio });
-  };
+import responseStatus from "../../../config/enum/responseStatus.js";
 
-  export default batchCall;
+const batchCall = async (
+  socket,
+  audioResponder,
+  responseText,
+  chatContextConcat
+) => {
+  chatContextConcat.push(responseText);
+  let responseAudio = await audioResponder(responseText);
+  console.log(responseAudio);
+
+  socket.emit("on response", {
+    status: responseStatus.SENDING,
+    responseText,
+    responseAudio,
+  });
+};
+
+export default batchCall;
