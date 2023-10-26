@@ -1,0 +1,1 @@
+A API do Talking AI foi criada como uma ferramenta robusta para simplificar o processo de aprendizado de novos idiomas, possibilitando a geração ágil de texto e voz. Ela faz uso de tecnologias avançadas, como o WebSocket, para estabelecer uma conexão eficiente com o cliente e consome APIs de terceiros por meio de streaming de dados.
