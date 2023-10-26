@@ -23,7 +23,7 @@ const getChat = async (textResponder, audioResponder, socket, msg) => {
       chunk = chunk.choices[0].delta.content;
       chunkList.push(chunk);
 
-      if (isSymbol.test(chunk) && chunkList.length >= 30) {
+      if (isSymbol.test(chunk) && chunkList.length >= 15) {
         let responseText = chunkList.join("");
         chunkList.length = 0;
 

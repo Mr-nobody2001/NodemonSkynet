@@ -20,6 +20,7 @@ io.on("connection", (socket) => {
     socket.on("send chat", (msg) => {
       getChat(textResponder, audioResponder, socket, msg);
     });
+
   } catch (error) {
     console.error(error.stack);
     const errorMessage = new ErrorMessage(error);

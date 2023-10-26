@@ -8,7 +8,6 @@ const batchCall = async (
 ) => {
   chatContextConcat.push(responseText);
   let responseAudio = await audioResponder(responseText);
-  console.log(responseAudio);
 
   socket.emit("on response", {
     status: responseStatus.SENDING,

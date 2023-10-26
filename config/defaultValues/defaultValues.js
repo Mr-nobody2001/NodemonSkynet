@@ -12,6 +12,6 @@ export const audioApiDefaultValues = {
     volume_default: 0,
     sampling_rate_default: 0,
     fallback_providers_default: null, 
-    audio_format_default: null, 
+    audio_format_default: "mp3", 
 }
 
